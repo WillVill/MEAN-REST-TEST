@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <link rel='stylesheet' href='public/stylesheets/style.css'/>
+    <link href="public/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+
+    <script src="public/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="public/bower_components/angular/angular.min.js"></script>
+    <script src="public/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="public/javascripts/angular/app.js"></script>
+    <script src="public/javascripts/angular/controller.js"></script>
+</head>
+<body>
+
+<div class="middlePage" ng-app="app">
+
+    <div class="panel panel-info" ng-controller="authenticationController">
+        <div class="panel-heading">
+            <h3 class="panel-title">Please Sign In</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+
+
+                <div class="col-md-7" style="border-left:1px solid #ccc;height:160px">
+                    <p><%= message %></p>
+                    <form role="form" name="loginForm" ng-submit="login()" class="form-horizontal">
+
+                        <input id="textinput" ng-model="user.username" type="text" placeholder="Enter Username"
+                               class="form-control input-md" required>
+                        <div class="spacing">
+                            <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
+                            <small> Remember me</small>
+                        </div>
+                        <input id="textinput" ng-model="user.password" type="password" placeholder="Enter Password"
+                               class="form-control input-md" required>
+                        <div class="spacing"><a href="#">
+                                <small> Forgot Password?</small>
+                            </a>
+                            <br/>
+                        </div>
+                        <input type="submit" class="btn btn-info btn-sm pull-right" value="Sign In">
+                        <small><a href="/signup">Sign up</a>
+                            </small>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>
