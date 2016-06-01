@@ -38,3 +38,5 @@ require('./routes/index')(app, passport);
 require('./routes/customerAPI')(app);
 
 server.listen(port);
+
+module.exports = app;

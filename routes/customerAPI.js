@@ -1,72 +1,61 @@
-var customer = require('../models/customer');
+var Customer = require('../models/customer');
 
-var router = express.Router();
-
-router.route('/api/customer/:customer_id')
+module.exports = function (app) {
+app.route('/api/customer/:customer_id')
     .get(function(req,res){
-        User.findById(req.params.customer_id, function(err, customer){
+        Customer.findById(req.params.customer_id, function(err, customer){
             if(err)
                 res.send(err)
 
-            console.log(customer)
-            res.json(customer)
+            res.json({customer: customer})
         })
     })
     .put(function(req,res){
-        customer.findById(req.params.customer_id, function(err, customer){
+        Customer.findOneAndUpdate({firstName: req.params.customer_id}, {lastName:req.body.lastName},
+        function(err, newCustomer){
             if(err)
             res.send(err)
-
-            customer = req.customer;
-
-            customer.save(function(err){
-                if(err)
-                    res.send(err)
-
-                res.json({message: 'customer updated'})
+            
+            res.json({customer: newCustomer})
             })
         })
-    })
     .delete(function(req, res){
-        customer.remove({
-            _id: req.params.customer_id
-        }, function(req, bear){
+        Customer.findOneAndRemove({firstName: "John"}, function(err) {
+            if(err) throw err;
+            
+            res.send("user deleted")
+        })})
+
+app.post('/api/customer', function(req, res){
+ var newCustomer = new Customer({firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email, address: req.body.address});
+    newCustomer.save(function(err){
             if(err)
                 res.send(err)
 
-            console.log(bear)
-            res.json({message: 'Customer added'})
-        })
-    })
-
-router.post('/api/customer', function(req, res){
-        customer.save(function(err){
-            if(err)
-                res.send(err)
-
-            res.json({ message: 'Customer added' });
+        res.json({Customer: newCustomer});
         })
     })
 
 
-router.get('/api/customers', function(req,res){
-        customer.find(function(err, customers){
+app.get('/api/customers', function(req,res){
+        Customer.find(function(err, customers){
             if(err)
                 res.send(err)
 
-            console.log(customers);
             res.json(customers);
         })
     })
 
 
-router.get('/username/:firstName', function(req,res){
-        User.findOne(req.params.firstName, function(err, customer){
-            if(err)
-                res.send(err)
+}
 
-            console.log(customer)
-            res.json(customer)
-        })
-    })
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
 
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
